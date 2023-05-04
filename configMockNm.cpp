@@ -30,8 +30,15 @@ void ConfigMockNM::setConnectivityState(NMConnectivityState newConnectivityState
 	connectivityState = newConnectivityState;
 }
 
-void ConfigMockNM::setActiveConnectionState(NMActiveConnectionState state)
+NMActiveConnecton* ConfigMockNM::getActiveConnection()
 {
+	return activeConnection;
+}
+
+void ConfigMockNM::setActiveConnectionState(gpointer stateTransfer)
+{
+	ActiveConnectionTransfer* activeConnectionTransfer = (ActiveConnectionTransfer*) stateTransfer;
+	NMActiveConnecton* activeConnection = activeConnectionTransfer->thisObj->getActiveConnection();
 	if (nm_active_connection_get_state(activeConnection) != state)
 	{
 		g_object_set((GObject*)activeConnection, NM_ACTIVE_CONNECTION_STATE, NM_ACTIVE_CONNECTION_STATE_ACTIVATING, NULL);
@@ -96,6 +103,7 @@ void ConfigMockNM::resetConnectionArrayContents(bool freeInternals)
 
 ConfigMockNM::ConfigMockNM()
 {
+	activeConnectionTransfer.thisObj = this;
 	client = MOCK_INVALID_CLIENT;
 	connectivityState = NM_CONNECTIVITY_NONE;
 	devices = g_ptr_array_new();

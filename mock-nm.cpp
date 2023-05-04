@@ -38,11 +38,22 @@ void nm_client_activate_connection_async(NMClient *client, NMConnection *connect
 	callback((GObject*)client, connection, userData);
 }
 
+void nm_client_add_and_activate_connection_async(NMClient *client, NMConnection *connection, NMDevice *device, const char *specific_object, ASYNC_PARAM_PATTERN)
+{
+	callback((GObject*)client, connection, userData);
+}
+
 NMActiveConnection* nm_client_activate_connection_finish(NMClient *client, FINISH_PARAM_PATTERN)
 {
 	NMConnection* connectionToCheck = result;
-	if (!g_ptr_array_find(connections, (NMConnection*)connectionToCheck))
+	if (!g_ptr_array_find(configMockNM.getConnections(), (NMConnection*)connectionToCheck))
 		return NULL;
 	configMockNM.setActiveConnectionState(NM_ACTIVE_CONNECTION_STATE_ACTIVATING);
 	g_timeout_add_once(3000, ConfigMockNM::setActiveConnectionState, (gpointer)(configMockNM.getFailActivation() ? NM_ACTIVE_CONNECTION_STATE_UNKNOWN : NM_ACTIVE_CONNECTION_STATE_ACTIVATED));
+}
+
+NMActiveConnection* nm_client_add_and_activate_connection_finish(NMClient* client, FINISH_PARAM_PATTERN)
+{
+	configMockNM.addConnection((NMConnection*)result);
+	return nm_client_activate_connection_finish(client, result, error);
 }

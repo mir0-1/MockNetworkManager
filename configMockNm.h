@@ -7,6 +7,12 @@
 #define MOCK_VALID_NONWIFI_DEVICE 0x1
 #define MOCK_VALID_WIFI_DEVICE 0x2
 
+typedef struct
+{
+	ConfigMockNM* thisObjData;
+	NMActiveConnectionState state;
+} ActiveConnectionTransfer;
+
 class ConfigMockNM
 {
 	private:
@@ -16,6 +22,7 @@ class ConfigMockNM
 		GPtrArray* connections;
 		bool failActivation;
 		NMActiveConnection* activeConnection;
+		ActiveConnectionTransfer activeConnectionTransfer;
 	
 		void addDevices(NMDevice* device, int count);
 		void resetArrayContents(GPtrArray** arr);
@@ -38,8 +45,9 @@ class ConfigMockNM
 		void resetConnectionArrayContents(bool freeInternals);
 		bool getFailActivation();
 		void setFailActivation(bool value);
+		NMActiveConnection* getActiveConnection();
 		
-		static void setActiveConnectionState(NMActiveConnectionState state);
+		static void setActiveConnectionState(gpointer stateTransfer);
 	
 		ConfigMockNM();
 		~ConfigMockNM();
