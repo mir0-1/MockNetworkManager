@@ -2,11 +2,6 @@
 #include <NetworkManager.h>
 #include <glib.h>
 
-#define MOCK_VALID_CLIENT 0x1
-#define MOCK_INVALID_CLIENT 0x0
-#define MOCK_VALID_NONWIFI_DEVICE 0x1
-#define MOCK_VALID_WIFI_DEVICE 0x2
-
 typedef struct
 {
 	ConfigMockNM* thisObjData;
@@ -20,6 +15,7 @@ class ConfigMockNM
 		NMConnectivityState connectivityState;
 		GPtrArray* devices;
 		GPtrArray* connections;
+		GPtrArray* accessPoints;
 		bool failActivation;
 		NMActiveConnection* activeConnection;
 		ActiveConnectionTransfer activeConnectionTransfer;
@@ -46,6 +42,8 @@ class ConfigMockNM
 		bool getFailActivation();
 		void setFailActivation(bool value);
 		NMActiveConnection* getActiveConnection();
+		GPtrArray* getAccessPoints();
+		void addAccessPoint(NMAccessPoint* accessPoint);
 		
 		static void setActiveConnectionState(gpointer stateTransfer);
 	

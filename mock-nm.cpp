@@ -46,7 +46,7 @@ void nm_client_add_and_activate_connection_async(NMClient *client, NMConnection 
 NMActiveConnection* nm_client_activate_connection_finish(NMClient *client, FINISH_PARAM_PATTERN)
 {
 	NMConnection* connectionToCheck = result;
-	if (!g_ptr_array_find(configMockNM.getConnections(), (NMConnection*)connectionToCheck))
+	if (result == NULL || client == NULL || !g_ptr_array_find(configMockNM.getConnections(), (NMConnection*)connectionToCheck))
 		return NULL;
 	configMockNM.setActiveConnectionState(NM_ACTIVE_CONNECTION_STATE_ACTIVATING);
 	g_timeout_add_once(3000, ConfigMockNM::setActiveConnectionState, (gpointer)(configMockNM.getFailActivation() ? NM_ACTIVE_CONNECTION_STATE_UNKNOWN : NM_ACTIVE_CONNECTION_STATE_ACTIVATED));
@@ -69,4 +69,9 @@ gboolean nm_remote_connection_delete_finish(NMRemoteConnection* connection, FINI
 		return false;
 	
 	return true;
+}
+
+const GPtrArray* nm_device_wifi_get_access_points(NMDeviceWifi* device)
+{
+	return configMockNM.getAccessPoints();
 }
