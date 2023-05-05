@@ -57,3 +57,16 @@ NMActiveConnection* nm_client_add_and_activate_connection_finish(NMClient* clien
 	configMockNM.addConnection((NMConnection*)result);
 	return nm_client_activate_connection_finish(client, result, error);
 }
+
+void nm_remote_connection_delete_async(NMRemoteConnection* connection, ASYNC_PARAM_PATTERN)
+{
+	callback((GObject*)connection, NULL, userData);
+}
+
+gboolean nm_remote_connection_delete_finish(NMRemoteConnection* connection, FINISH_PARAM_PATTERN)
+{
+	if (!g_ptr_array_remove(configMockNM.getConnections(), (NMConnection*)connection))
+		return false;
+	
+	return true;
+}
