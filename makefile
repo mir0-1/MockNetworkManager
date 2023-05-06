@@ -1,4 +1,4 @@
-OUTPUT_NAME=mocknm
+OUTPUT_NAME=mocknm.out
 COMPILER=g++
 CONFIG=`pkg-config --cflags --libs glib-2.0 libnm`
 BUILD=$(COMPILER) $^ $(CONFIG) -o $(OUTPUT_NAME)
