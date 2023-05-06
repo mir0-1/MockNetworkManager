@@ -15,7 +15,7 @@ NM80211ApSecurityFlags MockAccessPoint::getRSNFlags() const
 	return rsnFlags;
 }
 
-MockAccessPoint::MockAccessPoint(const std::string& ssid, const std::string& psk = "", NM80211ApSecurityFlags rsnFlags = NM_802_11_AP_SEC_NONE)
+MockAccessPoint::MockAccessPoint(const std::string& ssid, const std::string& psk, NM80211ApSecurityFlags rsnFlags)
 {
 	this->ssid = ssid;
 	this->psk = psk;

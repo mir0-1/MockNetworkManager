@@ -31,7 +31,7 @@ NMActiveConnection* MockConnectionStorage::activateConnection(NMConnection* conn
 {
 	deactivateConnection();
 
-	if (!g_ptr_array_find(connections, (gpointer)connection))
+	if (!g_ptr_array_find(connections, (gpointer)connection, NULL))
 		return NULL;
 
 	activeConnection = (NMActiveConnection*)connection;
@@ -56,7 +56,7 @@ NMConnectivityState MockConnectionStorage::getConnectivityState() const
 	return connectivityState;
 }
 
-NMConnectivityState MockConnectionStorage::setConnectivityState(NMConnectivityState newState) const
+NMConnectivityState MockConnectionStorage::setConnectivityState(NMConnectivityState newState)
 {
 	connectivityState = newState;
 }
