@@ -61,6 +61,11 @@ void MockConnectionStorage::setConnectivityState(NMConnectivityState newState)
 	connectivityState = newState;
 }
 
+NMActiveConnection* MockConnectionStorage::getActiveConnection() const
+{
+	return activeConnection;
+}
+
 MockConnectionStorage::MockConnectionStorage()
 {
 	connections = g_ptr_array_new();

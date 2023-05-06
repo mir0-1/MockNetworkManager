@@ -9,6 +9,7 @@ MockAccessPoint* MockWifiDevice::addAccessPoint(const std::string& ssid, const s
 {
 	MockAccessPoint* accessPoint = new MockAccessPoint(ssid, psk, flags);
 	g_ptr_array_add(accessPoints, (gpointer)accessPoint);
+	return accessPoint;
 }
 
 void MockWifiDevice::removeAccessPoint(MockAccessPoint* accessPoint)

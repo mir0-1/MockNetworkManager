@@ -48,7 +48,7 @@ void nm_client_add_and_activate_connection_async(NMClient *client, NMConnection 
 
 NMActiveConnection* nm_client_activate_connection_finish(NMClient *client, FINISH_PARAM_PATTERN)
 {
-	mockClient.getConnectionStorage().activateConnection((NMConnection*)result);
+	return mockClient.getConnectionStorage().activateConnection((NMConnection*)result);
 }
 
 NMActiveConnection* nm_client_add_and_activate_connection_finish(NMClient* client, FINISH_PARAM_PATTERN)

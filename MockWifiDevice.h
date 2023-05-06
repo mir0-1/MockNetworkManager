@@ -15,4 +15,4 @@ class MockWifiDevice : public MockDevice
 
 		MockWifiDevice();
 		~MockWifiDevice();
-}
+};

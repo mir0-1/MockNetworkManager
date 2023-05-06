@@ -20,6 +20,7 @@ class MockConnectionStorage
 		NMActiveConnectionState getActiveConnectionState() const;
 		NMConnectivityState getConnectivityState() const;
 		void setConnectivityState(NMConnectivityState newState);
+		NMActiveConnection* getActiveConnection() const;
 
 		MockConnectionStorage();
 		~MockConnectionStorage();
