@@ -1,11 +1,11 @@
-#include "configMockNM.h"
+#include "configMockNm.h"
 
 #define ASYNC_PARAM_PATTERN GCancellable *cancellable, GAsyncReadyCallback callback, gpointer userData
 #define FINISH_PARAM_PATTERN GAsyncResult *result, GError **error
 
 static void setActiveConnectionState(gpointer state)
 {
-	NMActiveConnecton* activeConnection = configMockNm.getActiveConnection();
+	NMActiveConnection* activeConnection = configMockNm.getActiveConnection();
 	if (nm_active_connection_get_state(activeConnection) != state)
 	{
 		g_object_set((GObject*)activeConnection, NM_ACTIVE_CONNECTION_STATE, state, NULL);

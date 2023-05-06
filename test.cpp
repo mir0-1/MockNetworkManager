@@ -12,6 +12,11 @@ void assertTrue(bool condition, const std::string& assertname)
 		std::cout << ": Failed" << std::endl;
 }
 
+void clientReadyCallback(CALLBACK_PARAMS_TEMPLATE)
+{
+	*((NMClient**)userData) = nm_client_new_finish(result, NULL);
+}
+
 void test_client_initialization()
 {
 	// When the client inits
@@ -20,11 +25,6 @@ void test_client_initialization()
 
 	// Then the client ptr should be MOCK_VALID_CLIENT
 	assertTrue(client == MOCK_VALID_CLIENT, "Client should be valid");
-}
-
-void clientReadyCallback(CALLBACK_PARAMS_TEMPLATE)
-{
-	*((NMClient*)userData) = nm_client_new_finish(result, NULL);
 }
 
 int main()
