@@ -8,4 +8,4 @@ class IntentionalFailureSupportedObject
 	public:
 		void setFailOnPurpose(bool value);
 		bool getFailOnPurpose();
-}
+};
