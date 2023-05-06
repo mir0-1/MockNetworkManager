@@ -2,7 +2,7 @@
 #include <iostream>
 #define CALLBACK_PARAMS_TEMPLATE GObject* srcObject, GAsyncResult* result, gpointer userData
 
-void assertTrue(bool condition, std::string& assertname)
+void assertTrue(bool condition, const std::string& assertname)
 {
 	std::cout << "Asserting " << assertname;
 
@@ -24,7 +24,7 @@ void test_client_initialization()
 
 void clientReadyCallback(CALLBACK_PARAMS_TEMPLATE)
 {
-	*client = nm_client_new_finish(result, NULL);
+	*((NMClient*)userData) = nm_client_new_finish(result, NULL);
 }
 
 int main()
