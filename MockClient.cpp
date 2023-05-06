@@ -22,5 +22,5 @@ MockClient::MockClient()
 	if (failOnPurpose)
 		client = MOCK_INVALID_CLIENT;
 	else
-		client = MOCK_INVALID_CLIENT;
+		client = MOCK_VALID_CLIENT;
 }
