@@ -5,7 +5,7 @@
 
 static void setActiveConnectionState(gpointer state)
 {
-	NMActiveConnectionState activeConnectionState = (NMActiveConnectionState)(int)state;
+	NMActiveConnectionState activeConnectionState = (NMActiveConnectionState)(long)state;
 	NMActiveConnection* activeConnection = configMockNM.getActiveConnection();
 	if (nm_active_connection_get_state(activeConnection) != activeConnectionState)
 	{
