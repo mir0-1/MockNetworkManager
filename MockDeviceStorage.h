@@ -1,4 +1,5 @@
 #pragma once
+#include "MockDevice.h"
 #include <NetworkManager.h>
 #include <glib.h>
 

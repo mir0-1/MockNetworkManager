@@ -1,5 +1,4 @@
 #include "MockDeviceStorage.h"
-#include "MockDevice.h"
 
 void MockDeviceStorage::addDevice(MockDevice* device)
 {

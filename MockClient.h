@@ -1,5 +1,7 @@
 #pragma once
 #include "IntentionalFailureSupportedObject.h"
+#include "MockConnectionStorage.h"
+#include "MockDeviceStorage.h"
 #include <NetworkManager.h>
 
 #define MOCK_VALID_CLIENT (NMClient*)0x1
