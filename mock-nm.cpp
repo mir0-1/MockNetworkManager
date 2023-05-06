@@ -1,4 +1,5 @@
 #include "MockClient.h"
+#include "MockWifiDevice.h"
 
 #define ASYNC_PARAM_PATTERN GCancellable *cancellable, GAsyncReadyCallback callback, gpointer userData
 #define FINISH_PARAM_PATTERN GAsyncResult *result, GError **error
@@ -64,7 +65,7 @@ void nm_remote_connection_delete_async(NMRemoteConnection* connection, ASYNC_PAR
 
 gboolean nm_remote_connection_delete_finish(NMRemoteConnection* connection, FINISH_PARAM_PATTERN)
 {
-	return (gboolean)mockClient.getConnectionStorage().removeConnection((NMConnection)connection);
+	return (gboolean)mockClient.getConnectionStorage().removeConnection((NMConnection*)connection);
 }
 
 const GPtrArray* nm_device_wifi_get_access_points(NMDeviceWifi* device)

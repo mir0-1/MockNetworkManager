@@ -1,4 +1,5 @@
 #include "MockDevice.h"
+#include "MockAccessPoint.h"
 #include <glib.h>
 
 class MockWifiDevice : public MockDevice
