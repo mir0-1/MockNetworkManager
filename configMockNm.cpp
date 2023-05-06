@@ -12,12 +12,12 @@ NMClient* ConfigMockNM::getClient()
 
 void ConfigMockNM::setClientValid()
 {
-	client = MOCK_VALID_CLIENT;
+	client = (NMClient*)MOCK_VALID_CLIENT;
 }
 
 void ConfigMockNM::setClientInvalid()
 {
-	client = MOCK_INVALID_CLIENT;
+	client = (NMClient*)MOCK_INVALID_CLIENT;
 }
 
 NMConnectivityState ConfigMockNM::getConnectivityState()
@@ -30,7 +30,7 @@ void ConfigMockNM::setConnectivityState(NMConnectivityState newConnectivityState
 	connectivityState = newConnectivityState;
 }
 
-NMActiveConnecton* ConfigMockNM::getActiveConnection()
+NMActiveConnection* ConfigMockNM::getActiveConnection()
 {
 	return activeConnection;
 }
@@ -79,12 +79,12 @@ void ConfigMockNM::addConnection(NMConnection* connection)
 
 ConfigMockNM::ConfigMockNM()
 {
-	client = MOCK_INVALID_CLIENT;
+	client = (NMClient*)MOCK_INVALID_CLIENT;
 	connectivityState = NM_CONNECTIVITY_NONE;
 	devices = g_ptr_array_new();
 	connections = g_ptr_array_new();
 	accessPoints = g_ptr_array_new();
-	activeConnection = (NMActiveConnecton*)g_object_new(NM_TYPE_ACTIVE_CONNECTION, NM_ACTIVE_CONNECTION_STATE, NM_ACTIVE_CONNECTION_STATE_UNKNOWN, NULL);
+	activeConnection = (NMActiveConnection*)g_object_new(NM_TYPE_ACTIVE_CONNECTION, NM_ACTIVE_CONNECTION_STATE, NM_ACTIVE_CONNECTION_STATE_UNKNOWN, NULL);
 }
 
 ConfigMockNM::~ConfigMockNM()

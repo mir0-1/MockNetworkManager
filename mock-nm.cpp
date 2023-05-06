@@ -62,6 +62,7 @@ NMActiveConnection* nm_client_activate_connection_finish(NMClient *client, FINIS
 	g_object_set(activeConnection, NM_ACTIVE_CONNECTION_CONNECTION, connectionToCheck, NULL);
 	setActiveConnectionState(NM_ACTIVE_CONNECTION_STATE_ACTIVATING);
 	g_timeout_add_once(3000, setActiveConnectionState, (gpointer)(configMockNM.getFailActivation() ? NM_ACTIVE_CONNECTION_STATE_UNKNOWN : NM_ACTIVE_CONNECTION_STATE_ACTIVATED));
+	return activeConnection;
 }
 
 NMActiveConnection* nm_client_add_and_activate_connection_finish(NMClient* client, FINISH_PARAM_PATTERN)
