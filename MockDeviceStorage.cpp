@@ -29,7 +29,7 @@ MockDeviceStorage::MockDeviceStorage()
 	devices = g_ptr_array_new();
 }
 
-~MockDeviceStorage::MockDeviceStorage()
+MockDeviceStorage::~MockDeviceStorage()
 {
 	freeDevices(false);
 }

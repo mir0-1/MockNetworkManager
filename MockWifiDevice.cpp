@@ -32,7 +32,7 @@ MockWifiDevice::MockWifiDevice() : MockDevice(NM_DEVICE_TYPE_WIFI)
 	accessPoints = g_ptr_array_new();
 }
 
-~MockWifiDevice::MockWifiDevice()
+MockWifiDevice::~MockWifiDevice()
 {
 	freeAccessPoints(false);
 }
