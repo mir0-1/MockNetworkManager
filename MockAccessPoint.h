@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 #include <NetworkManager.h>
 
 class MockAccessPoint
