@@ -5,7 +5,7 @@ GPtrArray* MockWifiDevice::getAccessPoints() const
 	return accessPoints;
 }
 
-MockAccessPoint* MockWifiDevice::addAccessPoint(const std::string& ssid, const std::string& psk = "", NM80211ApSecurityFlags flags = NM_802_11_AP_SEC_NONE)
+MockAccessPoint* MockWifiDevice::addAccessPoint(const std::string& ssid, const std::string& psk, NM80211ApSecurityFlags flags)
 {
 	MockAccessPoint* accessPoint = new MockAccessPoint(ssid, psk, flags);
 	g_ptr_array_add(accessPoints, (gpointer)accessPoint);

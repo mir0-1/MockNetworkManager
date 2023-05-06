@@ -67,7 +67,7 @@ MockConnectionStorage::MockConnectionStorage()
 	deactivateConnection();
 }
 
-~MockConnectionStorage::MockConnectionStorage()
+MockConnectionStorage::~MockConnectionStorage()
 {
 	deactivateConnection();
 	freeConnections(false, true);
