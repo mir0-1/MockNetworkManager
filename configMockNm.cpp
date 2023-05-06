@@ -110,7 +110,7 @@ void ConfigMockNM::setFailActivation(bool value)
 
 GPtrArray* ConfigMockNM::getAccessPoints()
 {
-	retrun accessPoints;
+	return accessPoints;
 }
 
 void ConfigMockNM::addAccessPoint(NMAccessPoint* accessPoint)
