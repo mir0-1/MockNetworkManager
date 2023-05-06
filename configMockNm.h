@@ -2,6 +2,9 @@
 #include <NetworkManager.h>
 #include <glib.h>
 
+#define MOCK_VALID_CLIENT 0x1
+#define MOCK_INVALID_CLIENT 0x0
+
 class ConfigMockNM
 {
 	private:
