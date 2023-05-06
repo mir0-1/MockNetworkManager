@@ -2,15 +2,14 @@
 #include <iostream>
 #define CALLBACK_PARAMS_TEMPLATE GObject* srcObject, GAsyncResult* result, gpointer userData
 
-template <class T>
-void assertEquals(T a, T b, std::string& assertname)
+void assertTrue(bool condition, std::string& assertname)
 {
-	std::cout << "Asserting " << assertname << std::endl;
+	std::cout << "Asserting " << assertname;
 
-	if (a == b)
-		std::cout << "Successful" << std::endl;
+	if (condition)
+		std::cout << ": Successful" << std::endl;
 	else
-		std::cout << "Failed" << std::endl;
+		std::cout << ": Failed" << std::endl;
 }
 
 void test_client_initialization()
@@ -20,12 +19,12 @@ void test_client_initialization()
 	nm_client_new_async(NULL, clientReadyCallback, &client);
 
 	// Then the client ptr should be MOCK_VALID_CLIENT
-	assertEquals(client, MOCK_VALID_CLIENT, "Client should be valid");
+	assertTrue(client == MOCK_VALID_CLIENT, "Client should be valid");
 }
 
 void clientReadyCallback(CALLBACK_PARAMS_TEMPLATE)
 {
-	*client = nm_client_new_async_finish(result, NULL);
+	*client = nm_client_new_finish(result, NULL);
 }
 
 int main()
