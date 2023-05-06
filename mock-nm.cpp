@@ -5,10 +5,11 @@
 
 static void setActiveConnectionState(gpointer state)
 {
-	NMActiveConnection* activeConnection = configMockNm.getActiveConnection();
-	if (nm_active_connection_get_state(activeConnection) != state)
+	NMActiveConnectionState activeConnectionState = (NMActiveConnectionState)state;
+	NMActiveConnection* activeConnection = configMockNM.getActiveConnection();
+	if (nm_active_connection_get_state(activeConnection) != activeConnectionState)
 	{
-		g_object_set((GObject*)activeConnection, NM_ACTIVE_CONNECTION_STATE, state, NULL);
+		g_object_set((GObject*)activeConnection, NM_ACTIVE_CONNECTION_STATE, activeConnectionState, NULL);
 		g_signal_emit_by_name(activeConnection, "notify::" NM_ACTIVE_CONNECTION_STATE);
 	}
 }
@@ -45,12 +46,12 @@ const GPtrArray* nm_client_get_connections(NMClient* client)
 
 void nm_client_activate_connection_async(NMClient *client, NMConnection *connection, NMDevice *device, const char *specific_object, ASYNC_PARAM_PATTERN)
 {
-	callback((GObject*)client, connection, userData);
+	callback((GObject*)client, (GAsyncResult*)connection, userData);
 }
 
 void nm_client_add_and_activate_connection_async(NMClient *client, NMConnection *connection, NMDevice *device, const char *specific_object, ASYNC_PARAM_PATTERN)
 {
-	callback((GObject*)client, connection, userData);
+	callback((GObject*)client, (GAsyncResult*)connection, userData);
 }
 
 NMActiveConnection* nm_client_activate_connection_finish(NMClient *client, FINISH_PARAM_PATTERN)
