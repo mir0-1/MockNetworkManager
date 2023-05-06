@@ -4,7 +4,7 @@
 #define ASYNC_PARAM_PATTERN GCancellable *cancellable, GAsyncReadyCallback callback, gpointer userData
 #define FINISH_PARAM_PATTERN GAsyncResult *result, GError **error
 
-MockClient mockClient;
+MockClient mockClient();
 
 void nm_client_new_async(ASYNC_PARAM_PATTERN)
 {
@@ -71,7 +71,7 @@ gboolean nm_remote_connection_delete_finish(NMRemoteConnection* connection, FINI
 const GPtrArray* nm_device_wifi_get_access_points(NMDeviceWifi* device)
 {
 	MockWifiDevice* mockWifiDevice = (MockWifiDevice*)device;
-	return (const GPtrArray*)mockWifiDevice.getAccessPoints();
+	return (const GPtrArray*)mockWifiDevice->getAccessPoints();
 }
 
 NMActiveConnectionState nm_active_connection_get_state(NMActiveConnection* activeConnection)
