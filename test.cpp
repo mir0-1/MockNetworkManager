@@ -25,6 +25,8 @@ void test_client_initialization()
 	NMClient* client;
 	nm_client_new_async(NULL, clientReadyCallback, &client);
 
+	std::cout << "Client is " << client << std::endl;
+
 	// Then the client ptr should be MOCK_VALID_CLIENT
 	assertTrue(client == (NMClient*)MOCK_VALID_CLIENT, "Client should be valid");
 }
