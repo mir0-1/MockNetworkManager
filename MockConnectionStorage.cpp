@@ -56,12 +56,12 @@ NMConnectivityState MockConnectionStorage::getConnectivityState() const
 	return connectivityState;
 }
 
-NMConnectivityState MockConnectionStorage::setConnectivityState(NMConnectivityState newState)
+void MockConnectionStorage::setConnectivityState(NMConnectivityState newState)
 {
 	connectivityState = newState;
 }
 
-MockConnectionStorage::MockConnectionStorage();
+MockConnectionStorage::MockConnectionStorage()
 {
 	connections = g_ptr_array_new();
 	deactivateConnection();

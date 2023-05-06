@@ -19,7 +19,7 @@ void MockDeviceStorage::freeDevices(bool reinit)
 		devices = g_ptr_array_new();
 }
 
-GPtrArray* getDevices() const
+GPtrArray* MockDeviceStorage::getDevices() const
 {
 	return devices;
 }
