@@ -1,8 +1,8 @@
-#include "configMockNm.h"
+#include "MockClient.h"
 #include <iostream>
 #define CALLBACK_PARAMS_TEMPLATE GObject* srcObject, GAsyncResult* result, gpointer userData
 
-extern ConfigMockNM configMockNM;
+extern MockClient mockClient;
 
 void assertTrue(bool condition, const std::string& assertname)
 {
@@ -24,8 +24,6 @@ void test_client_initialization()
 	// When the client inits
 	NMClient* client;
 	nm_client_new_async(NULL, clientReadyCallback, &client);
-
-	std::cout << "Client is " << client << std::endl;
 
 	// Then the client ptr should be MOCK_VALID_CLIENT
 	assertTrue(client == (NMClient*)MOCK_VALID_CLIENT, "Client should be valid");
