@@ -55,21 +55,22 @@ void nm_client_add_and_activate_connection_async(NMClient *client, NMConnection 
 
 NMActiveConnection* nm_client_activate_connection_finish(NMClient *client, FINISH_PARAM_PATTERN)
 {
-	NMConnection* connectionToCheck = result;
-	if (result == NULL || client == NULL || !g_ptr_array_find(configMockNM.getConnections(), (NMConnection*)connectionToCheck))
+	NMConnection* connectionToCheck = (NMConnection*)result;
+	if (result == NULL || client == NULL || !g_ptr_array_find(configMockNM.getConnections(), (NMConnection*)connectionToCheck, NULL))
 		return NULL;
 	NMActiveConnection* activeConnection = configMockNM.getActiveConnection();
 	g_object_set(activeConnection, NM_ACTIVE_CONNECTION_CONNECTION, connectionToCheck, NULL);
-	setActiveConnectionState(NM_ACTIVE_CONNECTION_STATE_ACTIVATING);
-	g_timeout_add_once(3000, setActiveConnectionState, (gpointer)(configMockNM.getFailActivation() ? NM_ACTIVE_CONNECTION_STATE_UNKNOWN : NM_ACTIVE_CONNECTION_STATE_ACTIVATED));
+	setActiveConnectionState((gpointer)NM_ACTIVE_CONNECTION_STATE_ACTIVATING);
+	//g_timeout_add_once(3000, setActiveConnectionState, (gpointer)(configMockNM.getFailActivation() ? NM_ACTIVE_CONNECTION_STATE_UNKNOWN : NM_ACTIVE_CONNECTION_STATE_ACTIVATED));
 	return activeConnection;
 }
 
 NMActiveConnection* nm_client_add_and_activate_connection_finish(NMClient* client, FINISH_PARAM_PATTERN)
 {
+	NMConnection* connection = (NMConnection*)result;
 	if (connection == NULL)
 		return NULL;
-	configMockNM.addConnection((NMConnection*)result);
+	configMockNM.addConnection(connection);
 	return nm_client_activate_connection_finish(client, result, error);
 }
 
