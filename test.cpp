@@ -21,11 +21,14 @@ void clientReadyCallback(CALLBACK_PARAMS_TEMPLATE)
 
 void test_client_initialization()
 {
-	// When the client inits
+	// Given
+	mockClient.setFailOnPurpose(false);
+
+	// When
 	NMClient* client;
 	nm_client_new_async(NULL, clientReadyCallback, &client);
 
-	// Then the client ptr should be MOCK_VALID_CLIENT
+	// Then
 	assertTrue(client == (NMClient*)MOCK_VALID_CLIENT, "Client should be valid");
 }
 
