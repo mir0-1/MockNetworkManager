@@ -3,6 +3,8 @@
 #define ASYNC_PARAM_PATTERN GCancellable *cancellable, GAsyncReadyCallback callback, gpointer userData
 #define FINISH_PARAM_PATTERN GAsyncResult *result, GError **error
 
+ConfigMockNM configMockNM;
+
 static void setActiveConnectionState(gpointer state)
 {
 	NMActiveConnectionState activeConnectionState = (NMActiveConnectionState)(long)state;

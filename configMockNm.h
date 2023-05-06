@@ -39,4 +39,4 @@ class ConfigMockNM
 		ConfigMockNM();
 		~ConfigMockNM();
 	
-} configMockNM;
+};

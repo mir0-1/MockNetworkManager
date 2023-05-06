@@ -2,6 +2,8 @@
 #include <iostream>
 #define CALLBACK_PARAMS_TEMPLATE GObject* srcObject, GAsyncResult* result, gpointer userData
 
+extern ConfigMockNM configMockNM;
+
 void assertTrue(bool condition, const std::string& assertname)
 {
 	std::cout << "Asserting " << assertname;
