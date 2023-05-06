@@ -1,9 +1,10 @@
+#include "MockWifiDevice.h"
 #include "MockClient.h"
+
+MockClient mockClient;
 
 #define ASYNC_PARAM_PATTERN GCancellable *cancellable, GAsyncReadyCallback callback, gpointer userData
 #define FINISH_PARAM_PATTERN GAsyncResult *result, GError **error
-
-MockClient mockClient;
 
 void nm_client_new_async(ASYNC_PARAM_PATTERN)
 {
