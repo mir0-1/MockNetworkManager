@@ -3,6 +3,16 @@
 #define ASYNC_PARAM_PATTERN GCancellable *cancellable, GAsyncReadyCallback callback, gpointer userData
 #define FINISH_PARAM_PATTERN GAsyncResult *result, GError **error
 
+static void setActiveConnectionState(gpointer state)
+{
+	NMActiveConnecton* activeConnection = configMockNm.getActiveConnection();
+	if (nm_active_connection_get_state(activeConnection) != state)
+	{
+		g_object_set((GObject*)activeConnection, NM_ACTIVE_CONNECTION_STATE, state, NULL);
+		g_signal_emit_by_name(activeConnection, "notify::" NM_ACTIVE_CONNECTION_STATE);
+	}
+}
+
 void nm_client_new_async(ASYNC_PARAM_PATTERN)
 {
 	callback(NULL, NULL, userData);
@@ -48,12 +58,16 @@ NMActiveConnection* nm_client_activate_connection_finish(NMClient *client, FINIS
 	NMConnection* connectionToCheck = result;
 	if (result == NULL || client == NULL || !g_ptr_array_find(configMockNM.getConnections(), (NMConnection*)connectionToCheck))
 		return NULL;
-	configMockNM.setActiveConnectionState(NM_ACTIVE_CONNECTION_STATE_ACTIVATING);
-	g_timeout_add_once(3000, ConfigMockNM::setActiveConnectionState, (gpointer)(configMockNM.getFailActivation() ? NM_ACTIVE_CONNECTION_STATE_UNKNOWN : NM_ACTIVE_CONNECTION_STATE_ACTIVATED));
+	NMActiveConnection* activeConnection = configMockNM.getActiveConnection();
+	g_object_set(activeConnection, NM_ACTIVE_CONNECTION_CONNECTION, connectionToCheck, NULL);
+	setActiveConnectionState(NM_ACTIVE_CONNECTION_STATE_ACTIVATING);
+	g_timeout_add_once(3000, setActiveConnectionState, (gpointer)(configMockNM.getFailActivation() ? NM_ACTIVE_CONNECTION_STATE_UNKNOWN : NM_ACTIVE_CONNECTION_STATE_ACTIVATED));
 }
 
 NMActiveConnection* nm_client_add_and_activate_connection_finish(NMClient* client, FINISH_PARAM_PATTERN)
 {
+	if (connection == NULL)
+		return NULL;
 	configMockNM.addConnection((NMConnection*)result);
 	return nm_client_activate_connection_finish(client, result, error);
 }
@@ -65,7 +79,7 @@ void nm_remote_connection_delete_async(NMRemoteConnection* connection, ASYNC_PAR
 
 gboolean nm_remote_connection_delete_finish(NMRemoteConnection* connection, FINISH_PARAM_PATTERN)
 {
-	if (!g_ptr_array_remove(configMockNM.getConnections(), (NMConnection*)connection))
+	if (connection == NULL || !g_ptr_array_remove(configMockNM.getConnections(), (NMConnection*)connection))
 		return false;
 	
 	return true;

@@ -1,8 +1,8 @@
 #include "configMockNm.h"
 
-void ConfigMockNM::freeConnectionArrElement(gpointer connection, gpointer userData)
+void ConfigMockNM::freeArrElement(gpointer element, gpointer userData)
 {
-	g_object_unref((GObject*)connection);
+	g_object_unref((GObject*)element);
 }
 
 NMClient* ConfigMockNM::getClient()
@@ -35,17 +35,6 @@ NMActiveConnecton* ConfigMockNM::getActiveConnection()
 	return activeConnection;
 }
 
-void ConfigMockNM::setActiveConnectionState(gpointer stateTransfer)
-{
-	ActiveConnectionTransfer* activeConnectionTransfer = (ActiveConnectionTransfer*) stateTransfer;
-	NMActiveConnecton* activeConnection = activeConnectionTransfer->thisObj->getActiveConnection();
-	if (nm_active_connection_get_state(activeConnection) != state)
-	{
-		g_object_set((GObject*)activeConnection, NM_ACTIVE_CONNECTION_STATE, NM_ACTIVE_CONNECTION_STATE_ACTIVATING, NULL);
-		g_signal_emit_by_name(activeConnection, "notify::" NM_ACTIVE_CONNECTION_STATE);
-	}
-}
-
 void ConfigMockNM::resetActiveConnectionState()
 {
 	g_object_set((GObject*)activeConnection, NM_ACTIVE_CONNECTION_STATE, NM_ACTIVE_CONNECTION_STATE_UNKNOWN, NULL);
@@ -56,32 +45,26 @@ GPtrArray* ConfigMockNM::getDevices()
 	return devices;
 }
 
-void ConfigMockNM::addDevices(NMDevice* deviceToAdd, int count)
+void ConfigMockNM::addDevice(NMDevice* device)
 {
-	NMDevice* device = deviceToAdd;
-	for (int i = 0; i < count; i++)
-		g_ptr_array_add(devices, device);
+	if (device == NULL)
+		return;
+	g_ptr_array_add(devices, device);
 }
 
-void ConfigMockNM::addNonWifiDevices(int count)
+void ConfigMockNM::resetArrayContents(GPtrArray** arr, bool freeInternals, bool reinit)
 {
-	addDevices(MOCK_VALID_NONWIFI_DEVICE, count);
-}
+	if (arr == NULL || *arr == NULL)
+		return;
 
-void ConfigMockNM::addWifiDevices(int count)
-{
-	addDevices(MOCK_VALID_WIFI_DEVICE, count);
-}
+	if (freeInternals)
+		g_ptr_array_foreach(*arr, (GFunc)freeArrElement, NULL);
 
-void ConfigMockNM::resetArrayContents(GPtrArray** arr)
-{
 	g_ptr_array_unref(*arr);
-	*arr = g_ptr_array_new();
-}
-
-void ConfigMockNM::resetDeviceArrayContents()
-{
-	resetArrayContents(&devices);
+	*arr = NULL;
+	
+	if (reinit)
+		*arr = g_ptr_array_new();
 }
 
 GPtrArray* ConfigMockNM::getConnections()
@@ -94,27 +77,24 @@ void ConfigMockNM::addConnection(NMConnection* connection)
 	g_ptr_array_add(connections, connection);
 }
 
-void ConfigMockNM::resetConnectionArrayContents(bool freeInternals)
-{
-	if (freeInternals)
-		g_ptr_array_foreach(connections, (GFunc)freeConnection, NULL);
-	resetArrayContents(&connections);
-}
-
 ConfigMockNM::ConfigMockNM()
 {
-	activeConnectionTransfer.thisObj = this;
 	client = MOCK_INVALID_CLIENT;
 	connectivityState = NM_CONNECTIVITY_NONE;
 	devices = g_ptr_array_new();
 	connections = g_ptr_array_new();
+	accessPoints = g_ptr_array_new();
 	activeConnection = (NMActiveConnecton*)g_object_new(NM_TYPE_ACTIVE_CONNECTION, NM_ACTIVE_CONNECTION_STATE, NM_ACTIVE_CONNECTION_STATE_UNKNOWN, NULL);
 }
 
 ConfigMockNM::~ConfigMockNM()
 {
-	g_ptr_array_unref(devices);
-	g_ptr_array_unref(connections);
+	if (devices != NULL)
+		g_ptr_array_unref(devices);
+
+	if (connections != NULL)
+		g_ptr_array_unref(connections);
+
 	g_object_unref(activeConnection);
 }
 
@@ -126,4 +106,14 @@ bool ConfigMockNM::getFailActivation()
 void ConfigMockNM::setFailActivation(bool value)
 {
 	failActivation = value;
+}
+
+GPtrArray* ConfigMockNM::getAccessPoints()
+{
+	retrun accessPoints;
+}
+
+void ConfigMockNM::addAccessPoint(NMAccessPoint* accessPoint)
+{
+	g_ptr_array_add(accessPoints, accessPoint);
 }
